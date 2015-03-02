@@ -8,9 +8,21 @@
  #
  # Main module of the application.
 ###
+console.log "HEY!!!!"
 angular
   .module('yallFeApp', [])
 
   # .config(function ($httpProvider) {
   #       delete $httpProvider.defaults.headers.common['X-Requested-With'];
   #   });
+
+
+  .config ['$routeProvider', ($routeProvider) ->
+    console.log "HEY!!!!"
+    $routeProvider.when '/view1',
+      templateUrl: 'main.html'
+      controller: 'MainCtrl'
+
+    $routeProvider.otherwise
+      redirectTo: '/view1'
+  ]

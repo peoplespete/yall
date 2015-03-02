@@ -14,8 +14,4 @@ angular.module('yallFeApp')
       'AngularJS'
       'Karma'
     ]
-    $http.get('www.google.com').success((data, status, headers, config) ->
-      console.log data
-      return
-    )
-    console.log "bdddy"
+

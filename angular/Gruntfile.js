@@ -15,6 +15,9 @@ module.exports = function (grunt) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
+  grunt.loadNpmTasks('grunt-connect-proxy');
+
+
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
@@ -67,13 +70,39 @@ module.exports = function (grunt) {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
         hostname: 'localhost',
-        livereload: 35729
+        livereload: 35729,
       },
+      proxies: [
+                {
+                    context: '/api',
+                    host: 'localhost',
+                    port: 3000,
+                    // https: false,
+                    // xforward: false,
+                    // headers: {
+                        // "x-custom-added-header": value
+                    // }
+                }
+            ],
       livereload: {
         options: {
           open: true,
-          middleware: function (connect) {
-            return [
+          middleware: function (connect, options) {
+            var middlewares = [];
+
+            if (!Array.isArray(options.base)) {
+              options.base = [options.base];
+            }
+
+            // Setup the proxy
+            middlewares.push(require('grunt-connect-proxy/lib/utils').proxyRequest);
+
+            // Serve static files
+            options.base.forEach(function(base) {
+              middlewares.push(connect.static(base));
+            });
+
+            var other_stuff = [
               connect.static('.tmp'),
               connect().use(
                 '/bower_components',
@@ -81,6 +110,7 @@ module.exports = function (grunt) {
               ),
               connect.static(appConfig.app)
             ];
+            return middlewares.concat(other_stuff);
           }
         }
       },
@@ -418,6 +448,7 @@ module.exports = function (grunt) {
       'wiredep',
       'concurrent:server',
       'autoprefixer',
+      'configureProxies:server',
       'connect:livereload',
       'watch'
     ]);
