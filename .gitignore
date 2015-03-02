@@ -1,8 +1,8 @@
-node_modules
-dist
-.tmp
-.sass-cache
-bower_components
+angular/node_modules
+angular/dist
+angular/.tmp
+angular/.sass-cache
+angular/bower_components
 
 
 ror/.bundle
@@ -11,3 +11,4 @@ ror/db/*.sqlite3-journal
 ror/log/*
 ror/!/log/.keep
 ror/tmp
+ror/Gemfile.lock
