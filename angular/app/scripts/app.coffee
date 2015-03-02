@@ -8,7 +8,7 @@
  #
  # Main module of the application.
 ###
-console.log "HEY!!!!"
+# console.log "HEY!!!!"
 angular
   .module('yallFeApp', [])
 
@@ -17,6 +17,7 @@ angular
   #   });
 
 
+# THIS ISN"T DOING ANYTHING!!!
   .config ['$routeProvider', ($routeProvider) ->
     console.log "HEY!!!!"
     $routeProvider.when '/view1',
